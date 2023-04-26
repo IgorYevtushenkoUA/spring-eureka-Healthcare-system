@@ -12,17 +12,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/app")
-public class PatientController {
+public class AccountController {
 
     @Autowired
     PatientService patientService;
 
-    @GetMapping("/patients")
+    @GetMapping("/account/patients")
     public List<Patient> getPatients(){
         return patientService.findAll();
     }
 
-    @GetMapping("/patients/{id}")
+    @GetMapping("/account/patients/{id}")
     public Patient getPatient(@PathVariable Integer id){
         return patientService.findById(id);
     }
