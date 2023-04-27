@@ -23,7 +23,7 @@ public class MedicalRecord {
     private String id;
 
     @Field("patient_id")
-    private Integer patientId;
+    private String patientId;
 
     @Field("doctor_id")
     private Integer doctorId;

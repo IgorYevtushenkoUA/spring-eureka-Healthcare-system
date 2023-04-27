@@ -3,8 +3,11 @@ package com.example.eurekaclient2.controller;
 import com.example.eurekaclient2.dto.AppointmentDTO;
 import com.example.eurekaclient2.entity.MedicalRecord;
 import com.example.eurekaclient2.service.MedicalRecordService;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,26 +23,42 @@ public class MedicalRecordController {
     @Autowired
     MedicalRecordService medicalRecordService;
 
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
     @GetMapping("/doctor/{id}/patients")
     public List<MedicalRecord> getPatientMedicalRecords(@PathVariable Integer id,
                                                         @RequestParam(required = false) String startDate,
                                                         @RequestParam(required = false) String endDate) throws ParseException {
-        List<MedicalRecord> medicalRecords;
-        if (startDate != null) {
-            Date dateStart = parseStringToDate(startDate);
-            Date dateEnd = parseStringToDate(endDate);
-            medicalRecords = medicalRecordService.findByPatientIdAndAppointmentDateBetween(id, dateStart, dateEnd);
-        } else {
-            medicalRecords = medicalRecordService.findAllByDoctorId(id);
-        }
-        return medicalRecords;
+//        List<MedicalRecord> medicalRecords;
+//        if (startDate != null) {
+//            Date dateStart = parseStringToDate(startDate);
+//            Date dateEnd = parseStringToDate(endDate);
+//            medicalRecords = medicalRecordService.findByPatientIdAndAppointmentDateBetween(id, dateStart, dateEnd);
+//        } else {
+//            medicalRecords = medicalRecordService.findAllByDoctorId(id);
+//        }
+//        return medicalRecords;
+        return null;
     }
 
     @PostMapping("/patient/{patientId}/appointment")
-    public MedicalRecord makeAppointmentToDoctor(@PathVariable Integer patientId,
+    public MedicalRecord makeAppointmentToDoctor(@PathVariable String patientId,
                                                  @RequestBody AppointmentDTO appointment
     ) {
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("eclient1");
+        if (instances != null && !instances.isEmpty()) {
+            ServiceInstance serviceInstance = instances.get(0);
+            String url = serviceInstance.getUri().toString();
+            url = String.format("%s/app/account/patients/%s", url, patientId);
+            System.out.println("url is :" + url);
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getForObject(url, Object.class);
+        }
+
         //todo -> send an email that you booked time to visit doctor
+
         LocalDateTime appointmentDate = parseStringToDate(appointment.getDay(), appointment.getHour());
         MedicalRecord medicalRecord = MedicalRecord.builder()
                 .patientId(patientId)

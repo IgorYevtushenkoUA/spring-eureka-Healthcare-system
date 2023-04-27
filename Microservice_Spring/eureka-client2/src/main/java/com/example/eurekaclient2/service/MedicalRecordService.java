@@ -35,19 +35,19 @@ public class MedicalRecordService {
         return medicalRecordRepository.findByDoctorIdAndAppointmentDateBetween(doctorId, startDate, endDate);
     }
 
-    public List<MedicalRecord> findAllByPatientId(Integer patientId) {
+    public List<MedicalRecord> findAllByPatientId(String patientId) {
         return medicalRecordRepository.findAllByPatientId(patientId);
     }
 
     public List<MedicalRecord> findByPatientIdAndAppointmentDateGreaterThanEqual(
-            Integer patientId,
+            String patientId,
             Date startDate
     ) {
         return medicalRecordRepository.findByPatientIdAndAppointmentDateGreaterThanEqual(patientId, startDate);
     }
 
     public List<MedicalRecord> findByPatientIdAndAppointmentDateBetween(
-            Integer patientId,
+            String patientId,
             Date startDate,
             Date endDate
     ) {

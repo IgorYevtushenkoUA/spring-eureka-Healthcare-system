@@ -23,15 +23,15 @@ public interface MedicalRecordRepository extends MongoRepository<MedicalRecord, 
             Date endDate
     );
 
-    List<MedicalRecord> findAllByPatientId(Integer patientId);
+    List<MedicalRecord> findAllByPatientId(String patientId);
 
     List<MedicalRecord> findByPatientIdAndAppointmentDateGreaterThanEqual(
-            Integer patientId,
+            String patientId,
             Date startDate
     );
 
     List<MedicalRecord> findByPatientIdAndAppointmentDateBetween(
-            Integer patientId,
+            String patientId,
             Date startDate,
             Date endDate
     );
