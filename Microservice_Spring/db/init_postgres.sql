@@ -2,7 +2,7 @@ drop table patients;
 
 CREATE TABLE patients
 (
-    id            INT,
+    id            UUID,
     first_name    VARCHAR(50),
     last_name     VARCHAR(50),
     date_of_birth DATE,
@@ -32,16 +32,16 @@ CREATE TABLE patients_2020 PARTITION OF patients FOR VALUES FROM ('2020-01-01') 
 
 INSERT INTO patients (id, first_name, last_name, date_of_birth, gender, email, phone, address, city, region)
 VALUES
-    (1, 'John', 'Doe', '1990-01-01', 'M', 'john.doe@example.com', '555-555-1234', '123 Main St', 'Anytown', 'CA'),
-    (2, 'Jane', 'Doe', '1995-05-05', 'F', 'jane.doe@example.com', '555-555-5678', '456 Oak Ave', 'Anytown', 'CA'),
-    (3, 'Bob', 'Smith', '1985-10-10', 'M', 'bob.smith@example.com', '555-555-9012', '789 Elm St', 'Anytown', 'CA'),
-    (4, 'Alice', 'Johnson', '1992-02-02', 'F', 'alice.johnson@example.com', '555-555-3456', '321 Pine St', 'Anytown', 'CA'),
-    (5, 'Mike', 'Miller', '1978-07-07', 'M', 'mike.miller@example.com', '555-555-7890', '654 Maple St', 'Anytown', 'CA'),
-    (6, 'Amy', 'Davis', '1989-09-09', 'F', 'amy.davis@example.com', '555-555-2345', '987 Oak St', 'Anytown', 'CA'),
-    (7, 'Tom', 'Wilson', '1980-04-04', 'M', 'tom.wilson@example.com', '555-555-6789', '456 Pine Ave', 'Anytown', 'CA'),
-    (8, 'Sarah', 'Jones', '1998-11-11', 'F', 'sarah.jones@example.com', '555-555-0123', '789 Elm Ave', 'Anytown', 'CA'),
-    (9, 'David', 'Brown', '1991-03-03', 'M', 'david.brown@example.com', '555-555-4567', '123 Maple Ave', 'Anytown', 'CA'),
-    (10, 'Emily', 'Taylor', '1987-06-06', 'F', 'emily.taylor@example.com','555-555-3387', '123 Apple Elb', 'Anytown', 'CA');
+    ('34ddd7f8-4825-45dd-bd7a-ca397a6223ab', 'John', 'Doe', '1990-01-01', 'M', 'john.doe@example.com', '555-555-1234', '123 Main St', 'Anytown', 'CA'),
+    ('76721478-6913-4c47-8d4b-a94ef873279e', 'Jane', 'Doe', '1995-05-05', 'F', 'jane.doe@example.com', '555-555-5678', '456 Oak Ave', 'Anytown', 'CA'),
+    ('3d99b17d-b230-4a21-aa94-0fcf1df06b76', 'Bob', 'Smith', '1985-10-10', 'M', 'bob.smith@example.com', '555-555-9012', '789 Elm St', 'Anytown', 'CA'),
+    ('3df5a390-1966-4ed7-9a3c-cee354123c81', 'Alice', 'Johnson', '1992-02-02', 'F', 'alice.johnson@example.com', '555-555-3456', '321 Pine St', 'Anytown', 'CA'),
+    ('4f23e1de-2443-4dae-b0d3-c4c3683dc710', 'Mike', 'Miller', '1978-07-07', 'M', 'mike.miller@example.com', '555-555-7890', '654 Maple St', 'Anytown', 'CA'),
+    ('93f71c54-7fc5-49a1-88ab-2f52746f423b', 'Amy', 'Davis', '1989-09-09', 'F', 'amy.davis@example.com', '555-555-2345', '987 Oak St', 'Anytown', 'CA'),
+    ('c455f2fc-d014-4165-a652-893a87e3574b', 'Tom', 'Wilson', '1980-04-04', 'M', 'tom.wilson@example.com', '555-555-6789', '456 Pine Ave', 'Anytown', 'CA'),
+    ('7e2ba400-82e6-4e2d-9891-ba1c4c29a40f', 'Sarah', 'Jones', '1998-11-11', 'F', 'sarah.jones@example.com', '555-555-0123', '789 Elm Ave', 'Anytown', 'CA'),
+    ('de1a7e70-b9e5-467c-b916-dac8ecc652cd', 'David', 'Brown', '1991-03-03', 'M', 'david.brown@example.com', '555-555-4567', '123 Maple Ave', 'Anytown', 'CA'),
+    ('542b835b-1581-4754-9884-1cac8c55b821', 'Emily', 'Taylor', '1987-06-06', 'F', 'emily.taylor@example.com','555-555-3387', '123 Apple Elb', 'Anytown', 'CA');
 
 select tableoid::regclass, * from patients;
 

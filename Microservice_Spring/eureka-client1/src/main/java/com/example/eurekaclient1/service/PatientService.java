@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PatientService {
@@ -18,7 +19,9 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public Patient findById(int id){
+    public Patient save(Patient patient){return patientRepository.save(patient);}
+
+    public Patient findById(UUID id){
         return patientRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
