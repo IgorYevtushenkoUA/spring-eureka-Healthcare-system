@@ -1,15 +1,24 @@
 package com.example.eurekaclient2.util;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
 import org.bson.Document;
+import org.bson.UuidRepresentation;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class MedicalRecordGenerator {
 
     public static void main(String[] args) {
         // Connect to MongoDB
-        var mongoClient = MongoClients.create("mongodb://localhost:27017");
+        var mongoClient = MongoClients.create(
+                MongoClientSettings.builder()
+                        .applyConnectionString(new ConnectionString("mongodb://localhost:27017"))
+                        .uuidRepresentation(UuidRepresentation.STANDARD)
+                        .build());
         var database = mongoClient.getDatabase("healthcare_system");
         var collection = database.getCollection("medical_records");
 
@@ -24,7 +33,7 @@ public class MedicalRecordGenerator {
     }
 
     private static Document generateMedicalRecord(int index) {
-        var record = new Document("_id", index)
+        var record = new Document("_id", UUID.randomUUID().toString())
                 .append("patient_id", (int)(Math.random()*10)+1)
                 .append("doctor_id", (int)(Math.random()*2)+1)
                 .append("appointment_date", new Date())

@@ -54,4 +54,8 @@ public class MedicalRecordService {
         return medicalRecordRepository.findByPatientIdAndAppointmentDateBetween(patientId, startDate, endDate);
     }
 
+    public MedicalRecord save(MedicalRecord medicalRecord){
+        return medicalRecordRepository.save(medicalRecord);
+    }
+
 }

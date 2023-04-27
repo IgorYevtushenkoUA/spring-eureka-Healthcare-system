@@ -1,5 +1,6 @@
 package com.example.eurekaclient2.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.annotation.Id;
@@ -18,6 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class MedicalRecord {
 
     @Id
+    @Field("_id")
     private String id;
 
     @Field("patient_id")
@@ -27,7 +29,7 @@ public class MedicalRecord {
     private Integer doctorId;
 
     @Field("appointment_date")
-    private Date appointmentDate;
+    private LocalDateTime appointmentDate;
 
     private String diagnosis;
 
@@ -39,10 +41,10 @@ public class MedicalRecord {
     private List<LabResult> labResults;
 
     @Field("created_at")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Field("updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @Data
     @NoArgsConstructor
