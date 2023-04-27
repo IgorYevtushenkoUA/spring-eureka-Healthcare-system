@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @NoArgsConstructor
@@ -19,10 +20,13 @@ public class MedicalRecord {
     @Id
     private String id;
 
+    @Field("patient_id")
     private Integer patientId;
 
+    @Field("doctor_id")
     private Integer doctorId;
 
+    @Field("appointment_date")
     private Date appointmentDate;
 
     private String diagnosis;
@@ -31,10 +35,13 @@ public class MedicalRecord {
 
     private List<Medication> medications;
 
+    @Field("lab_results")
     private List<LabResult> labResults;
 
+    @Field("created_at")
     private Date createdAt;
 
+    @Field("updated_at")
     private Date updatedAt;
 
     @Data
@@ -56,6 +63,7 @@ public class MedicalRecord {
     @Builder
     public static class LabResult {
 
+        @Field("test_name")
         private String testName;
 
         private String result;

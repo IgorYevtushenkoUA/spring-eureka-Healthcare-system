@@ -19,7 +19,6 @@ public class MedicalRecordGenerator {
             collection.insertOne(record);
             System.out.println("Inserted record: " + record);
         }
-
         // Disconnect from MongoDB
         mongoClient.close();
     }

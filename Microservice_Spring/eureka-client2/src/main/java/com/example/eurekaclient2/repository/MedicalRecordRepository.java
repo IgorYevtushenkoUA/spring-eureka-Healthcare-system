@@ -2,7 +2,6 @@ package com.example.eurekaclient2.repository;
 
 import com.example.eurekaclient2.entity.MedicalRecord;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
