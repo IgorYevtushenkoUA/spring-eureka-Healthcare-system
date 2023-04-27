@@ -1,11 +1,14 @@
 package com.example.eurekaclient2.controller;
 
 import com.example.eurekaclient2.dto.AppointmentDTO;
+import com.example.eurekaclient2.dto.PatientDTO;
 import com.example.eurekaclient2.entity.MedicalRecord;
 import com.example.eurekaclient2.service.MedicalRecordService;
+import com.example.notificationservice.messaging.Appointment;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,6 +28,11 @@ public class MedicalRecordController {
 
     @Autowired
     private DiscoveryClient discoveryClient;
+
+    @Autowired
+    JmsTemplate jmsTemplate;
+
+    private static final String MESSAGE_QUEUE = "appointments";
 
     @GetMapping("/doctor/{id}/patients")
     public List<MedicalRecord> getPatientMedicalRecords(@PathVariable Integer id,
@@ -47,6 +55,8 @@ public class MedicalRecordController {
                                                  @RequestBody AppointmentDTO appointment
     ) {
 
+        PatientDTO patientDTOInfo = new PatientDTO();
+
         List<ServiceInstance> instances = discoveryClient.getInstances("eclient1");
         if (instances != null && !instances.isEmpty()) {
             ServiceInstance serviceInstance = instances.get(0);
@@ -54,10 +64,17 @@ public class MedicalRecordController {
             url = String.format("%s/app/account/patients/%s", url, patientId);
             System.out.println("url is :" + url);
             RestTemplate restTemplate = new RestTemplate();
-            restTemplate.getForObject(url, Object.class);
+            patientDTOInfo = restTemplate.getForObject(url, PatientDTO.class);
         }
 
         //todo -> send an email that you booked time to visit doctor
+
+        Appointment a = new Appointment();
+        a.setAppointmentDate(new Date());
+        a.setSurname(patientDTOInfo.getLastName());
+        a.setName(patientDTOInfo.getFirstName());
+        a.setEmail("a.glybovets@ukma.edu.ua");
+        jmsTemplate.convertAndSend(MESSAGE_QUEUE, a);
 
         LocalDateTime appointmentDate = parseStringToDate(appointment.getDay(), appointment.getHour());
         MedicalRecord medicalRecord = MedicalRecord.builder()
