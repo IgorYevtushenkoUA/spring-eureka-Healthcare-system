@@ -1,17 +1,34 @@
-CREATE TABLE patients (
-                          id INT PRIMARY KEY,
-                          first_name VARCHAR(50),
-                          last_name VARCHAR(50),
-                          date_of_birth DATE,
-                          gender CHAR(1),
-                          email VARCHAR(255),
-                          phone VARCHAR(20),
-                          address VARCHAR(255),
-                          city VARCHAR(50),
-                          region VARCHAR(50),
-                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+drop table patients;
+
+CREATE TABLE patients
+(
+    id            INT,
+    first_name    VARCHAR(50),
+    last_name     VARCHAR(50),
+    date_of_birth DATE,
+    gender        CHAR(1),
+    email         VARCHAR(255),
+    phone         VARCHAR(20),
+    address       VARCHAR(255),
+    city          VARCHAR(50),
+    region        VARCHAR(50),
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) PARTITION BY RANGE (date_of_birth);
+
+CREATE TABLE patients_1900 PARTITION OF patients FOR VALUES FROM ('1900-01-01') TO ('1909-12-31');
+CREATE TABLE patients_1910 PARTITION OF patients FOR VALUES FROM ('1910-01-01') TO ('1919-12-31');
+CREATE TABLE patients_1920 PARTITION OF patients FOR VALUES FROM ('1920-01-01') TO ('1929-12-31');
+CREATE TABLE patients_1930 PARTITION OF patients FOR VALUES FROM ('1930-01-01') TO ('1939-12-31');
+CREATE TABLE patients_1940 PARTITION OF patients FOR VALUES FROM ('1940-01-01') TO ('1949-12-31');
+CREATE TABLE patients_1950 PARTITION OF patients FOR VALUES FROM ('1950-01-01') TO ('1959-12-31');
+CREATE TABLE patients_1960 PARTITION OF patients FOR VALUES FROM ('1960-01-01') TO ('1969-12-31');
+CREATE TABLE patients_1970 PARTITION OF patients FOR VALUES FROM ('1970-01-01') TO ('1979-12-31');
+CREATE TABLE patients_1980 PARTITION OF patients FOR VALUES FROM ('1980-01-01') TO ('1989-12-31');
+CREATE TABLE patients_1990 PARTITION OF patients FOR VALUES FROM ('1990-01-01') TO ('1999-12-31');
+CREATE TABLE patients_2000 PARTITION OF patients FOR VALUES FROM ('2000-01-01') TO ('2009-12-31');
+CREATE TABLE patients_2010 PARTITION OF patients FOR VALUES FROM ('2010-01-01') TO ('2019-12-31');
+CREATE TABLE patients_2020 PARTITION OF patients FOR VALUES FROM ('2020-01-01') TO ('2029-12-31');
 
 INSERT INTO patients (id, first_name, last_name, date_of_birth, gender, email, phone, address, city, region)
 VALUES
@@ -24,7 +41,9 @@ VALUES
     (7, 'Tom', 'Wilson', '1980-04-04', 'M', 'tom.wilson@example.com', '555-555-6789', '456 Pine Ave', 'Anytown', 'CA'),
     (8, 'Sarah', 'Jones', '1998-11-11', 'F', 'sarah.jones@example.com', '555-555-0123', '789 Elm Ave', 'Anytown', 'CA'),
     (9, 'David', 'Brown', '1991-03-03', 'M', 'david.brown@example.com', '555-555-4567', '123 Maple Ave', 'Anytown', 'CA'),
-    (10, 'Emily', 'Taylor', '1987-06-06', 'F', 'emily.taylor@example.com','555-555-3387', '123 Apple Elb', 'Anytown', 'CA')
+    (10, 'Emily', 'Taylor', '1987-06-06', 'F', 'emily.taylor@example.com','555-555-3387', '123 Apple Elb', 'Anytown', 'CA');
+
+select tableoid::regclass, * from patients;
 
 
 CREATE TABLE doctors (
