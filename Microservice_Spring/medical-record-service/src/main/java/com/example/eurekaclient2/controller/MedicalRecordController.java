@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/app/medical-record")
+@RequestMapping("/app")
 public class MedicalRecordController {
 
     @Autowired
@@ -38,16 +38,15 @@ public class MedicalRecordController {
     public List<MedicalRecord> getPatientMedicalRecords(@PathVariable Integer id,
                                                         @RequestParam(required = false) String startDate,
                                                         @RequestParam(required = false) String endDate) throws ParseException {
-//        List<MedicalRecord> medicalRecords;
-//        if (startDate != null) {
-//            Date dateStart = parseStringToDate(startDate);
-//            Date dateEnd = parseStringToDate(endDate);
-//            medicalRecords = medicalRecordService.findByPatientIdAndAppointmentDateBetween(id, dateStart, dateEnd);
-//        } else {
-//            medicalRecords = medicalRecordService.findAllByDoctorId(id);
-//        }
-//        return medicalRecords;
-        return null;
+        List<MedicalRecord> medicalRecords;
+        if (startDate != null) {
+            Date dateStart = parseStringToDate(startDate);
+            Date dateEnd = parseStringToDate(endDate);
+            medicalRecords = medicalRecordService.findAllPatientsByDoctorIdAndAppointmentDateBetween(id, dateStart, dateEnd);
+        } else {
+            medicalRecords = medicalRecordService.findAllPatientsByDoctorId(id);
+        }
+        return medicalRecords;
     }
 
     @PostMapping("/patient/{patientId}/appointment")
@@ -67,13 +66,13 @@ public class MedicalRecordController {
             patientDTOInfo = restTemplate.getForObject(url, PatientDTO.class);
         }
 
-        //todo -> send an email that you booked time to visit doctor
+        //send an email that you booked time to visit doctor
 
         Appointment a = new Appointment();
         a.setAppointmentDate(new Date());
         a.setSurname(patientDTOInfo.getLastName());
         a.setName(patientDTOInfo.getFirstName());
-        a.setEmail("a.glybovets@ukma.edu.ua");
+        a.setEmail(patientDTOInfo.getEmail());
         jmsTemplate.convertAndSend(MESSAGE_QUEUE, a);
 
         LocalDateTime appointmentDate = parseStringToDate(appointment.getDay(), appointment.getHour());

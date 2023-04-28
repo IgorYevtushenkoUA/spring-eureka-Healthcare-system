@@ -14,20 +14,19 @@ public class MedicalRecordService {
     @Autowired
     MedicalRecordRepository medicalRecordRepository;
 
-    public List<MedicalRecord> findAllByDoctorId(Integer doctorId) {
+    public List<MedicalRecord> findAllPatientsByDoctorId(Integer doctorId) {
         List<MedicalRecord> mr= medicalRecordRepository.findAllByDoctorId(doctorId);
-        System.out.printf("service lol medical record for doctor_id=1 = [%d]", mr.size());
         return mr;
     }
 
-    public List<MedicalRecord> findByDoctorIdAndAppointmentDateGreaterThanEqual(
+    public List<MedicalRecord> findAllPatientsByDoctorIdAndAppointmentDateGreaterThanEqual(
             Integer doctorId,
             Date startDate
     ) {
         return medicalRecordRepository.findByDoctorIdAndAppointmentDateGreaterThanEqual(doctorId, startDate);
     }
 
-    public List<MedicalRecord> findByDoctorIdAndAppointmentDateBetween(
+    public List<MedicalRecord> findAllPatientsByDoctorIdAndAppointmentDateBetween(
             Integer doctorId,
             Date startDate,
             Date endDate
@@ -35,18 +34,18 @@ public class MedicalRecordService {
         return medicalRecordRepository.findByDoctorIdAndAppointmentDateBetween(doctorId, startDate, endDate);
     }
 
-    public List<MedicalRecord> findAllByPatientId(String patientId) {
+    public List<MedicalRecord> findAllMedicalRecordsByPatientId(String patientId) {
         return medicalRecordRepository.findAllByPatientId(patientId);
     }
 
-    public List<MedicalRecord> findByPatientIdAndAppointmentDateGreaterThanEqual(
+    public List<MedicalRecord> findAllMedicalRecordsByPatientIdAndAppointmentDateGreaterThanEqual(
             String patientId,
             Date startDate
     ) {
         return medicalRecordRepository.findByPatientIdAndAppointmentDateGreaterThanEqual(patientId, startDate);
     }
 
-    public List<MedicalRecord> findByPatientIdAndAppointmentDateBetween(
+    public List<MedicalRecord> findAllMedicalRecordsByPatientIdAndAppointmentDateBetween(
             String patientId,
             Date startDate,
             Date endDate
